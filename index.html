@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamburger Menu Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .menu-icon {
+            display: none;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+            padding: 14px 16px;
+        }
+        .dropdown {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            background-color: #333;
+            z-index: 1;
+            width: 100%;
+        }
+        .dropdown a {
+            float: none;
+        }
+        .calculator {
+            display: none;
+            padding: 20px;
+            background: #444;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 50%;
+            z-index: 1000;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            overflow: auto;
+        }
+        .profile-box {
+            display: none;
+            padding: 20px;
+            background: #f0f0f0;
+            color: #333;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .profile-box img {
+            width: 100px;
+            border-radius: 50%;
+        }
+        @media screen and (max-width: 600px) {
+            .navbar a {
+                display: none;
+            }
+            .menu-icon {
+                display: block;
+            }
+            .navbar.responsive .dropdown {
+                display: flex;
+            }
+            .navbar.responsive a {
+                display: block;
+                text-align: left;
+            }
+        }
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button {
+            padding: 15px;
+            font-size: 18px;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #485d72;
+            transition: background-color 0.3s ease, transform 0.2s;
+        }
+        button:hover {
+            background-color: #387abd;
+            transform: scale(1.05);
+        }
+        #input_value {
+            width: 100%;
+            padding: 15px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            background-color: #f7f9fa;
+            color: #060708;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar" id="myNavbar">
+    <span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
+    <div class="dropdown">
+        <a href="#home">Home</a>
+        <a href="#" onclick="showProfile()">Profile</a>
+        <a href="#contact">Contact Us</a>
+        <a href="#" onclick="toggleCalculator()">Calculator</a>
+    </div>
+</div>
+
+<!-- Profile Box -->
+<div class="profile-box" id="profileBox">
+    <h3>User Profile</h3>
+    <img src="profile_picture.jpg" alt="Profile Picture" />
+    <p>Name: <span id="displayName">BONIFACE USHAHEMBA</span></p>
+    <p>Registration Number: <span id="displayReg">2025</span></p>
+    <p>Gender: <span id="displayGender">Male</span></p>
+    <p>Scores: <span id="displayScores">0%</span></p>
+</div>
+
+<!-- Calculator -->
+<div class="calculator" id="calculator">
+    <h2>Simple Calculator</h2>
+    <input type="text" id="input_value" readonly>
+    <div class="keyboard">
+        <button onclick="appendClear()">C</button>
+        <button onclick="backspace()">←</button>
+        <button onclick="appendnumber('/')">÷</button>
+        <button onclick="appendnumber('*')">×</button>
+        <button onclick="appendnumber('7')">7</button>
+        <button onclick="appendnumber('8')">8</button>
+        <button onclick="appendnumber('9')">9</button>
+        <button onclick="appendnumber('+')">+</button>
+        <button onclick="appendnumber('4')">4</button>
+        <button onclick="appendnumber('5')">5</button>
+        <button onclick="appendnumber('6')">6</button>
+        <button onclick="appendnumber('-')">-</button>
+        <button onclick="appendnumber('1')">1</button>
+        <button onclick="appendnumber('2')">2</button>
+        <button onclick="appendnumber('3')">3</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="appendnumber('0')">0</button>
+        <button onclick="appendnumber('.')">.</button>
+    </div>
+</div>
+
+<script>
+    function toggleMenu() {
+        const navbar = document.getElementById("myNavbar");
+        navbar.classList.toggle("responsive");
+    }
+
+    function showProfile() {
+        const profileBox = document.getElementById("profileBox");
+        profileBox.style.display = profileBox.style.display === "none" ? "block" : "none";
+    }
+
+    function toggleCalculator() {
+        const calculator = document.getElementById("calculator");
+        calculator.style.display = calculator.style.display === "none" || calculator.style.display === "" ? "block" : "none";
+    }
+
+    function appendnumber(input) {
+        document.getElementById("input_value").value += input;
+    }
+
+    function appendClear() {
+        document.getElementById("input_value").value = "";
+    }
+
+    function backspace() {
+        const input = document.getElementById("input_value");
+        input.value = input.value.slice(0, -1);
+    }
+
+    function calculate() {
+        try {
+            const result = eval(document.getElementById("input_value").value);
+            document.getElementById("input_value").value = result;
+        } catch {
+            document.getElementById("input_value").value = "Error";
+        }
+    }
+</script>
+
+</body>
+</html>
+
+
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CBT App with Calculator & Webcam</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+    }
+    .container {
+      max-width: 700px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    h2, h3 {
+      text-align: center;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      border-radius: 5px;
+      background: #007BFF;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    #timer {
+      font-weight: bold;
+      text-align: right;
+      margin-bottom: 10px;
+    }
+    .question {
+      margin: 20px 0;
+    }
+    .option {
+      margin: 5px 0;
+    }
+    .warning { color: red; }
+    .normal { color: green; }
+    .calculator {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #fff;
+      border-radius: 5px;
+      width: 160px;
+      display: none;
+    }
+    .calc-display {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .calc-buttons button {
+      width: 30%;
+      margin: 2px;
+    }
+    .circle {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid #007BFF;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: white;
+      margin: 10px auto;
+    }
+    video {
+      width: 100%;
+      object-fit: cover;
+    }
+    #photoContainer img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    marquee {
+      color: #007BFF;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .profile-box {
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+    .profile-box img {
+      width: 100px;
+      border-radius: 50%;
+    }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+
+<!-- Login & Webcam Section -->
+<div class="container" id="loginPage">
+  <marquee>WELCOME TO CBT APP | POWERED BY BONIFACE USHAHEMBA @ 3MTT | JULY 2025</marquee>
+
+  <div class="circle">
+    <video id="video" autoplay playsinline></video>
+  </div>
+  <div style="text-align:center; margin: 10px 0;">FACIAL VERIFICATION - AI is monitoring screen</div>
+  <button id="captureButton">Click to Capture</button>
+  <canvas id="canvas" style="display: none;"></canvas>
+  <div id="photoContainer"></div>
+
+  <centre></centre><h2>INSTRUCTIONS</h2>
+  <ul id="instructions-list">
+    <li>Welcomes You, To AI -Protocoring CBT App. Built By BONIFACE USHAHEMBA, A Software Developer @3MTT Nigeria , Please,Follow The Instructions Below</li>
+    <li>Do not switch tabs.</li>
+    <li>You have only 5 minutes.</li>
+    <li>AI is monitoring the screen.</li>
+    <li>Once logged in, no going back.</li>
+    <li>Avoid distractions.</li>
+    <li>Enter your registration number below and login, select any subject of your choice:</li>
+  </ul>
+
+  <button id="playBtn">🔊 Read Instructions</button>
+
+  <h2>Enter Registration Number</h2>
+  <input type="text" id="regNo" placeholder="Enter Registration Number" />
+  <button id="loginBtn" onclick="startSubjectSelection()">Login</button>
+</div>
+
+<script>
+  const instructions = [
+    "Welcomes you to AI -protocoring CBT app. Built by BONIFACE USHAHEMBA, a software developer @3MTT Nigeria , following the instructions below",
+    "Do not switch tabs.",
+    "You have only 5 minutes.",
+    "AI is monitoring the screen.",
+    "Once logged in, no going back.",
+    "Avoid distractions.",
+    "Enter your registration number below and login, Select any subject of your choice."
+  ];
+
+  const playBtn = document.getElementById("playBtn");
+
+  playBtn.onclick = () => {
+    const synth = window.speechSynthesis;
+    let i = 0;
+
+    function speakNext() {
+      if (i < instructions.length) {
+        const utter = new SpeechSynthesisUtterance(instructions[i]);
+        utter.onend = () => {
+          i++;
+          speakNext();
+        };
+        synth.speak(utter);
+      }
+    }
+
+    speakNext();
+  };
+
+  function startSubjectSelection() {
+    const regNo = document.getElementById("regNo").value.trim();
+    if (!regNo) return alert("Please enter your registration number.");
+    document.getElementById("loginPage").classList.add("hidden");
+
+    // Show the subject selection and hide the registration input and button
+    document.getElementById("subjectPage").classList.remove("hidden");
+    document.getElementById("profileBox").style.display = "block";
+    document.getElementById("displayReg").textContent = regNo;
+  }
+</script>
+
+<!-- Subject Selection -->
+<div class="container hidden" id="subjectPage">
+  <h2>Select a Subject</h2>
+  <button onclick="startQuiz('English')">English</button>
+  <button onclick="startQuiz('Physics')">Physics</button>
+  <button onclick="startQuiz('Chemistry')">Chemistry</button>
+  <button onclick="startQuiz('Biology')">Biology</button>
+  <button onclick="startQuiz('Mathematics')">Mathematics</button>
+</div>
+
+<!-- Quiz Section -->
+<div class="container hidden" id="quizPage">
+  <div id="timer" class="normal">05:00</div>
+  <h2 id="subjectTitle"></h2>
+  <div class="question" id="questionText"></div>
+  <div id="options"></div>
+  <button onclick="prevQuestion()">Previous Question</button>
+  <button onclick="nextQuestion()">Next Question</button>
+  <button onclick="prevSubject()">Previous Subject</button>
+  <button onclick="nextSubject()">Next Subject</button>
+</div>
+
+<!-- Submit Page -->
+<div class="container hidden" id="submitPage">
+  <h2>Submit Your Test</h2>
+  <button onclick="printResults()">Print Results</button>
+  <button onclick="submitQuiz()">Submit</button>
+  <div id="scoreResult"></div>
+</div>
+
+<!-- Calculator -->
+<div class="calculator" id="calculatorPage">
+  <h2>Calculator</h2>
+  <div class="calc-display" id="calcDisplay">0</div>
+  <input type="text" id="calcInput" placeholder="Enter calculation" />
+  <div class="calc-buttons">
+    <button onclick="calculate()">=</button>
+    <button onclick="clearCalc()">C</button>
+    <button onclick="appendToCalc('+')">+</button>
+    <button onclick="appendToCalc('-')">-</button>
+    <button onclick="appendToCalc('*')">*</button>
+    <button onclick="appendToCalc('/')">/</button>
+  </div>
+  <button onclick="toggleCalculator()">Close</button>
+</div>
+
+<!-- Scripts -->
+<script>
+// Webcam Setup
+const canvas = document.getElementById('canvas');
+const video = document.getElementById('video');
+const photoContainer = document.getElementById('photoContainer');
+
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then(stream => {
+    video.srcObject = stream;
+    console.log("Webcam access granted. AI is monitoring your screen.");
+  })
+  .catch(err => alert("Webcam access denied. Please enable access."));
+
+document.getElementById('captureButton').addEventListener('click', () => {
+  const ctx = canvas.getContext('2d');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  const img = document.createElement('img');
+  img.src = canvas.toDataURL('image/png');
+  photoContainer.innerHTML = '';
+  photoContainer.appendChild(img);
+});
+
+// Quiz Data & Logic
+const questions = {
+  English: [
+    { q: "Synonym of 'happy'?", options: ["Sad", "Joyful", "Angry", "Tired"], answer: "Joyful" },
+    { q: "Identify the metaphor: 'Time is a thief.'", options: ["Time steals", "Time is valuable", "Time passes quickly", "Time runs away"], answer: "Time steals" },
+    { q: "Example of alliteration?", options: ["Peter Piper picked", "As brave as a lion", "The wind whispered", "The sun smiled"], answer: "Peter Piper picked" },
+    { q: "Main theme of 'Romeo and Juliet'?", options: ["Friendship", "Love and conflict", "Betrayal", "War"], answer: "Love and conflict" },
+    { q: "Antonym for 'difficult'?", options: ["Easy", "Hard", "Tough", "Challenging"], answer: "Easy" }
+  ],
+  Physics: [
+    { q: "Unit of force?", options: ["Newton", "Joule", "Watt", "Pascal"], answer: "Newton" },
+    { q: "Equal and opposite reaction?", options: ["1st Law", "2nd Law", "3rd Law", "Energy Law"], answer: "3rd Law" },
+    { q: "Acceleration due to gravity?", options: ["9.8 m/s²", "10 m/s²", "9.81 m/s²", "9.6 m/s²"], answer: "9.8 m/s²" },
+    { q: "Scalar quantity?", options: ["Velocity", "Force", "Mass", "Acceleration"], answer: "Mass" },
+    { q: "Function of a transformer?", options: ["Increase current", "Decrease voltage", "Change AC voltage", "Store energy"], answer: "Change AC voltage" }
+  ],
+  Chemistry: [
+    { q: "Formula for water?", options: ["H₂O", "CO₂", "O₂", "H₂O₂"], answer: "H₂O" },
+    { q: "Atomic number 6?", options: ["Oxygen", "Carbon", "Nitrogen", "Hydrogen"], answer: "Carbon" },
+    { q: "pH of pure water?", options: ["7", "0", "14", "10"], answer: "7" },
+    { q: "Substance that speeds reaction?", options: ["Catalyst", "Reactant", "Solvent", "Product"], answer: "Catalyst" },
+    { q: "Gas from acid + metal?", options: ["Oxygen", "Hydrogen", "Carbon Dioxide", "Nitrogen"], answer: "Hydrogen" }
+  ],
+  Biology: [
+    { q: "Powerhouse of cell?", options: ["Nucleus", "Ribosome", "Mitochondria", "Golgi"], answer: "Mitochondria" },
+    { q: "Basic unit of life?", options: ["Tissue", "Organ", "Cell", "Organism"], answer: "Cell" },
+    { q: "Plants make food via?", options: ["Respiration", "Photosynthesis", "Fermentation", "Digestion"], answer: "Photosynthesis" },
+    { q: "Hemoglobin function?", options: ["Oxygen transport", "Fight infections", "Clot blood", "Regulate temp"], answer: "Oxygen transport" },
+    { q: "Photosynthesis site?", options: ["Roots", "Stem", "Leaves", "Flowers"], answer: "Leaves" }
+  ],
+  Mathematics: [
+    { q: "Value of π to 2 decimals?", options: ["3.12", "3.14", "3.16", "3.18"], answer: "3.14" },
+    { q: "Area of 5x3 rectangle?", options: ["15", "8", "20", "10"], answer: "15" },
+    { q: "√144?", options: ["10", "11", "12", "13"], answer: "12" },
+    { q: "x + 5 = 12?", options: ["5", "7", "8", "12"], answer: "7" },
+    { q: "25% of 200?", options: ["30", "50", "75", "100"], answer: "50" }
+  ]
+};
+
+let subjects = Object.keys(questions);
+let currentSubjectIndex = 0;
+let currentQuestion = 0;
+let userAnswers = {};
+let timer;
+let timeLeft = 300;
+
+function startQuiz(subject) {
+  currentSubjectIndex = subjects.indexOf(subject);
+  currentQuestion = 0;
+  if (!userAnswers[subject]) userAnswers[subject] = Array(5).fill(null);
+  document.getElementById("subjectPage").classList.add("hidden");
+  document.getElementById("quizPage").classList.remove("hidden");
+  document.getElementById("subjectTitle").innerText = subject;
+  showQuestion();
+  if (!timer) timer = setInterval(updateTimer, 1000);
+}
+
+function showQuestion() {
+  const q = questions[subjects[currentSubjectIndex]][currentQuestion];
+  document.getElementById("questionText").innerText = q.q;
+  document.getElementById("options").innerHTML = q.options.map(opt => `
+    <div class="option"><label><input type="radio" name="option" value="${opt}" ${userAnswers[subjects[currentSubjectIndex]][currentQuestion] === opt ? 'checked' : ''}> ${opt}</label></div>
+  `).join('');
+}
+
+function nextQuestion() {
+  saveAnswer();
+  if (currentQuestion < 4) {
+    currentQuestion++;
+    showQuestion();
+  } else {
+    nextSubject();
+  }
+}
+
+function prevQuestion() {
+  saveAnswer();
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    showQuestion();
+  }
+}
+
+function nextSubject() {
+  if (currentSubjectIndex < subjects.length - 1) {
+    currentSubjectIndex++;
+    currentQuestion = 0;
+    startQuiz(subjects[currentSubjectIndex]);
+  } else {
+    submitQuiz();
+  }
+}
+
+function prevSubject() {
+  if (currentSubjectIndex > 0) {
+    currentSubjectIndex--;
+    currentQuestion = 0;
+    startQuiz(subjects[currentSubjectIndex]);
+  }
+}
+
+function saveAnswer() {
+  const selected = document.querySelector('input[name="option"]:checked');
+  if (selected) userAnswers[subjects[currentSubjectIndex]][currentQuestion] = selected.value;
+}
+
+function updateTimer() {
+  timeLeft--;
+  const m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+  const s = String(timeLeft % 60).padStart(2, '0');
+  const timerElement = document.getElementById("timer");
+  timerElement.innerText = `${m}:${s}`;
+  if (timeLeft <= 10) timerElement.className = "warning";
+  if (timeLeft <= 0) {
+    clearInterval(timer);
+    submitQuiz();
+  }
+}
+
+function calculate() {
+  const input = document.getElementById("calcInput").value;
+  try {
+    document.getElementById("calcDisplay").innerText = eval(input);
+  } catch {
+    document.getElementById("calcDisplay").innerText = "Error!";
+  }
+}
+
+function clearCalc() {
+  document.getElementById("calcInput").value = '';
+  document.getElementById("calcDisplay").innerText = '0';
+}
+
+function appendToCalc(val) {
+  document.getElementById("calcInput").value += val;
+}
+
+function toggleCalculator() {
+  const calc = document.getElementById("calculatorPage");
+  calc.style.display = calc.style.display === 'none' ? 'block' : 'none';
+}
+
+function printResults() {
+  const results = document.getElementById("scoreResult").innerHTML;
+  const win = window.open('', 'Print-Window');
+  win.document.open();
+  win.document.write(`<html><head><title>Print Results</title></head><body>${results}<button onclick="window.print()">Print</button></body></html>`);
+  win.document.close();
+}
+
+function submitQuiz() {
+  clearInterval(timer);
+  let total = 0;
+  let score = {};
+  let resultHtml = '';
+
+  subjects.forEach(subject => {
+    let subjectScore = 0;
+    questions[subject].forEach((q, i) => {
+      total++;
+      if (userAnswers[subject] && userAnswers[subject][i] === q.answer) subjectScore++;
+    });
+    const percent = Math.round((subjectScore / questions[subject].length) * 100);
+    score[subject] = { score: subjectScore, percent: percent };
+    resultHtml += `<p>${subject}: ${percent}% (${subjectScore}/${questions[subject].length})</p>`;
+  });
+
+  document.getElementById("quizPage").classList.add("hidden");
+  document.getElementById("submitPage").classList.remove("hidden");
+  document.getElementById("scoreResult").innerHTML = resultHtml;
+}
+
+</script>
+
+</body>
+</html>
+
+
+<!-- Navigation Buttons -->
+<div style="text-align: center; margin-top: 20px;">
+  <button onclick="goBackHome()" style="margin-right: 20px;">
+    🏡 Back Home
+  </button>
+</div>
+
+<script>
+  function goBackHome() {
+    // Replace 'home.html' with your actual home page filename or path
+    window.location.href = "home.html";
+  }
+</script>
+
